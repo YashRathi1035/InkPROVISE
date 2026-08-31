@@ -1,0 +1,40 @@
+personalized-handwriting-ai/
+│
+├── app.py
+│
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
+├── config/
+│   ├── __init__.py
+│   └── settings.py
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   ├── samples/
+│   └── uploads/
+│
+├── preprocessing/
+│   └── __init__.py
+│
+├── models/
+│   └── __init__.py
+│
+├── training/
+│   └── __init__.py
+│
+├── datasets/
+│   └── __init__.py
+│
+├── evaluation/
+│   └── __init__.py
+│
+├── services/
+│   └── __init__.py
+│
+├── utils/
+│   └── __init__.py
+│
+└── notebooks/
