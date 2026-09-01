@@ -61,6 +61,26 @@ from features.handwriting_features import (
 
 
 # ============================================================
+# PHASE 4
+# MACHINE LEARNING STYLE MODEL
+# ============================================================
+
+from models.style_model import (
+    build_handwriting_style_model,
+)
+
+from models.style_visualization import (
+    create_consistency_dataframe,
+    create_feature_summary_dataframe,
+    get_most_consistent_features,
+    get_most_variable_features,
+    plot_feature_consistency,
+    plot_feature_distribution,
+    get_feature_distribution_summary,
+)
+
+
+# ============================================================
 # PAGE CONFIGURATION
 # ============================================================
 
@@ -90,6 +110,16 @@ if "uploaded_samples" not in st.session_state:
 
 if "processed_samples" not in st.session_state:
     st.session_state.processed_samples = []
+
+# ============================================================
+# PHASE 4 SESSION STATE
+# ============================================================
+
+if "style_model" not in st.session_state:
+    st.session_state.style_model = None
+
+if "style_model_sample_names" not in st.session_state:
+    st.session_state.style_model_sample_names = []
 
 
 # ============================================================
@@ -715,6 +745,103 @@ def process_handwriting_image(
             document_contour is not None
         ),
     }
+
+
+# ============================================================
+# PHASE 4
+# PROCESS ALL HANDWRITING SAMPLES
+# ============================================================
+
+def process_all_handwriting_samples():
+
+    samples = (
+        st.session_state.uploaded_samples
+    )
+
+    if not samples:
+
+        raise ValueError(
+            "No handwriting samples available."
+        )
+
+    feature_list = []
+
+    sample_names = []
+
+    progress_bar = st.progress(
+        0
+    )
+
+    status_text = st.empty()
+
+    total_samples = len(
+        samples
+    )
+
+    for index, sample in enumerate(
+        samples
+    ):
+
+        status_text.write(
+            f"Processing sample "
+            f"{index + 1} of "
+            f"{total_samples}: "
+            f"{sample.name}"
+        )
+
+        # ----------------------------------------------------
+        # PHASE 2 PROCESSING
+        # ----------------------------------------------------
+
+        results = (
+            process_handwriting_image(
+                sample
+            )
+        )
+
+        # ----------------------------------------------------
+        # PHASE 3 FEATURE EXTRACTION
+        # ----------------------------------------------------
+
+        handwriting_features = (
+            extract_handwriting_features(
+                results[
+                    "handwriting_region"
+                ],
+                results[
+                    "lines"
+                ],
+                results[
+                    "words_by_line"
+                ],
+            )
+        )
+
+        feature_list.append(
+            handwriting_features
+        )
+
+        sample_names.append(
+            sample.name
+        )
+
+        progress_value = (
+            (index + 1)
+            / total_samples
+        )
+
+        progress_bar.progress(
+            progress_value
+        )
+
+    status_text.success(
+        "All handwriting samples processed successfully."
+    )
+
+    return (
+        feature_list,
+        sample_names,
+    )
 
 
 # ============================================================
@@ -1377,6 +1504,445 @@ def show_analysis():
 
         st.success(
             "Writing style features extracted"
+        )
+
+    # ========================================================
+    # PHASE 4
+    # MACHINE LEARNING STYLE ANALYSIS
+    # ========================================================
+
+    st.divider()
+
+    st.header(
+        "🧠 Machine Learning Style Analysis"
+    )
+
+    st.write(
+        """
+        Analyze all uploaded handwriting samples together
+        to build a Machine Learning-ready handwriting
+        style profile.
+        """
+    )
+
+    # ========================================================
+    # BUILD STYLE MODEL
+    # ========================================================
+
+    if st.button(
+        "🧠 Build Handwriting Style Model",
+        type="primary",
+        use_container_width=True,
+    ):
+
+        try:
+
+            with st.spinner(
+                "Building handwriting style model..."
+            ):
+
+                (
+                    feature_list,
+                    model_sample_names,
+                ) = (
+                    process_all_handwriting_samples()
+                )
+
+                style_model = (
+                    build_handwriting_style_model(
+                        feature_list=feature_list,
+                        sample_names=model_sample_names,
+                        remove_low_variance=False,
+                    )
+                )
+
+                st.session_state.style_model = (
+                    style_model
+                )
+
+                st.session_state.style_model_sample_names = (
+                    model_sample_names
+                )
+
+            st.success(
+                "Handwriting Style Model built successfully!"
+            )
+
+        except Exception as error:
+
+            st.error(
+                f"Style model creation failed: {error}"
+            )
+
+    # ========================================================
+    # DISPLAY STYLE MODEL
+    # ========================================================
+
+    if (
+        st.session_state.style_model
+        is not None
+    ):
+
+        style_model = (
+            st.session_state.style_model
+        )
+
+        feature_metadata = (
+            style_model[
+                "feature_metadata"
+            ]
+        )
+
+        # ----------------------------------------------------
+        # MAIN METRICS
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "📊 Style Model Overview"
+        )
+
+        (
+            metric_col1,
+            metric_col2,
+            metric_col3,
+        ) = st.columns(3)
+
+        with metric_col1:
+
+            st.metric(
+                "Samples Analyzed",
+                feature_metadata[
+                    "number_of_samples"
+                ],
+            )
+
+        with metric_col2:
+
+            st.metric(
+                "ML Features",
+                feature_metadata[
+                    "number_of_features"
+                ],
+            )
+
+        with metric_col3:
+
+            st.metric(
+                "Overall Consistency",
+                (
+                    f"{style_model['overall_consistency']:.1f}%"
+                ),
+            )
+
+        # ----------------------------------------------------
+        # RAW DATASET
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "📄 Raw Handwriting Feature Dataset"
+        )
+
+        st.dataframe(
+            style_model[
+                "raw_dataframe"
+            ],
+            use_container_width=True,
+        )
+
+        # ----------------------------------------------------
+        # CLEANED DATASET
+        # ----------------------------------------------------
+
+        st.subheader(
+            "🧹 Cleaned Feature Dataset"
+        )
+
+        st.dataframe(
+            style_model[
+                "cleaned_dataframe"
+            ],
+            use_container_width=True,
+        )
+
+        # ----------------------------------------------------
+        # NORMALIZED DATASET
+        # ----------------------------------------------------
+
+        st.subheader(
+            "🧠 Normalized ML Feature Dataset"
+        )
+
+        st.write(
+            """
+            These standardized features are now ready
+            for Machine Learning algorithms.
+            """
+        )
+
+        st.dataframe(
+            style_model[
+                "normalized_dataframe"
+            ],
+            use_container_width=True,
+        )
+
+        # ----------------------------------------------------
+        # FEATURE SUMMARY
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "📈 Statistical Handwriting Profile"
+        )
+
+        feature_summary_dataframe = (
+            create_feature_summary_dataframe(
+                style_model[
+                    "style_profile"
+                ]
+            )
+        )
+
+        st.dataframe(
+            feature_summary_dataframe,
+            use_container_width=True,
+        )
+
+        # ----------------------------------------------------
+        # CONSISTENCY DATAFRAME
+        # ----------------------------------------------------
+
+        consistency_dataframe = (
+            create_consistency_dataframe(
+                style_model[
+                    "feature_consistency"
+                ]
+            )
+        )
+
+        # ----------------------------------------------------
+        # CONSISTENCY CHART
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "🎯 Handwriting Feature Consistency"
+        )
+
+        consistency_figure = (
+            plot_feature_consistency(
+                consistency_dataframe
+            )
+        )
+
+        if consistency_figure is not None:
+
+            st.pyplot(
+                consistency_figure
+            )
+
+        # ----------------------------------------------------
+        # MOST CONSISTENT FEATURES
+        # ----------------------------------------------------
+
+        stable_col, variable_col = (
+            st.columns(2)
+        )
+
+        with stable_col:
+
+            st.subheader(
+                "🟢 Most Stable Features"
+            )
+
+            most_consistent = (
+                get_most_consistent_features(
+                    consistency_dataframe,
+                    top_n=5,
+                )
+            )
+
+            st.dataframe(
+                most_consistent,
+                use_container_width=True,
+            )
+
+        with variable_col:
+
+            st.subheader(
+                "🟠 Most Variable Features"
+            )
+
+            most_variable = (
+                get_most_variable_features(
+                    consistency_dataframe,
+                    top_n=5,
+                )
+            )
+
+            st.dataframe(
+                most_variable,
+                use_container_width=True,
+            )
+
+        # ----------------------------------------------------
+        # FEATURE DISTRIBUTION
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "📉 Feature Distribution Across Samples"
+        )
+
+        normalized_dataframe = (
+            style_model[
+                "normalized_dataframe"
+            ]
+        )
+
+        available_features = list(
+            normalized_dataframe.columns
+        )
+
+        if available_features:
+
+            selected_feature = (
+                st.selectbox(
+                    "Select a feature to analyze",
+                    available_features,
+                )
+            )
+
+            feature_figure = (
+                plot_feature_distribution(
+                    style_model[
+                        "cleaned_dataframe"
+                    ],
+                    selected_feature,
+                )
+            )
+
+            if feature_figure is not None:
+
+                st.pyplot(
+                    feature_figure
+                )
+
+            feature_summary = (
+                get_feature_distribution_summary(
+                    style_model[
+                        "cleaned_dataframe"
+                    ],
+                    selected_feature,
+                )
+            )
+
+            if feature_summary:
+
+                (
+                    summary_col1,
+                    summary_col2,
+                    summary_col3,
+                    summary_col4,
+                ) = st.columns(4)
+
+                with summary_col1:
+
+                    st.metric(
+                        "Mean",
+                        (
+                            f"{feature_summary['mean']:.4f}"
+                        ),
+                    )
+
+                with summary_col2:
+
+                    st.metric(
+                        "Std Dev",
+                        (
+                            f"{feature_summary['std']:.4f}"
+                        ),
+                    )
+
+                with summary_col3:
+
+                    st.metric(
+                        "Minimum",
+                        (
+                            f"{feature_summary['min']:.4f}"
+                        ),
+                    )
+
+                with summary_col4:
+
+                    st.metric(
+                        "Maximum",
+                        (
+                            f"{feature_summary['max']:.4f}"
+                        ),
+                    )
+
+        # ----------------------------------------------------
+        # STYLE PROFILE SUMMARY
+        # ----------------------------------------------------
+
+        st.divider()
+
+        st.subheader(
+            "✍️ Handwriting Style Summary"
+        )
+
+        overall_consistency = (
+            style_model[
+                "overall_consistency"
+            ]
+        )
+
+        if overall_consistency >= 85:
+
+            consistency_message = (
+                "Highly consistent handwriting style"
+            )
+
+        elif overall_consistency >= 65:
+
+            consistency_message = (
+                "Moderately consistent handwriting style"
+            )
+
+        else:
+
+            consistency_message = (
+                "High variation detected between samples"
+            )
+
+        st.info(
+            f"""
+            **Profile:** {st.session_state.profile_name}
+
+            **Samples analyzed:** {
+                feature_metadata['number_of_samples']
+            }
+
+            **Features used:** {
+                feature_metadata['number_of_features']
+            }
+
+            **Overall consistency:** {
+                overall_consistency:.1f
+            }%
+
+            **Style assessment:** {
+                consistency_message
+            }
+            """
         )
 
 
