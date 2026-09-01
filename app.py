@@ -81,6 +81,48 @@ from models.style_visualization import (
 
 
 # ============================================================
+# PHASE 4D
+# HANDWRITING SIMILARITY ANALYSIS
+# ============================================================
+
+from models.similarity_model import (
+    analyze_handwriting_similarity,
+)
+
+
+# ============================================================
+# PHASE 5A
+# SAMPLE QUALITY ANALYSIS
+# ============================================================
+
+from quality.sample_quality import (
+    analyze_sample_quality,
+)
+
+
+# ============================================================
+# PHASE 5B
+# SAMPLE ACCEPTANCE / REJECTION
+# ============================================================
+
+from profile.sample_selector import (
+    build_sample_selection_dataframe,
+    get_sample_selection_summary,
+)
+
+
+# ============================================================
+# PHASE 5C
+# FINAL HANDWRITING PROFILE BUILDER
+# ============================================================
+
+from profile.profile_builder import (
+    build_handwriting_profile,
+    create_profile_summary_dataframe,
+)
+
+
+# ============================================================
 # PAGE CONFIGURATION
 # ============================================================
 
@@ -120,6 +162,25 @@ if "style_model" not in st.session_state:
 
 if "style_model_sample_names" not in st.session_state:
     st.session_state.style_model_sample_names = []
+
+# ============================================================
+# PHASE 4D / PHASE 5 SESSION STATE
+# ============================================================
+
+if "similarity_analysis" not in st.session_state:
+    st.session_state.similarity_analysis = None
+
+if "quality_results" not in st.session_state:
+    st.session_state.quality_results = []
+
+if "sample_selection_dataframe" not in st.session_state:
+    st.session_state.sample_selection_dataframe = None
+
+if "selection_summary" not in st.session_state:
+    st.session_state.selection_summary = None
+
+if "final_handwriting_profile" not in st.session_state:
+    st.session_state.final_handwriting_profile = None
 
 
 # ============================================================
@@ -842,6 +903,110 @@ def process_all_handwriting_samples():
         feature_list,
         sample_names,
     )
+
+
+# ============================================================
+# PHASE 5
+# COMPLETE QUALITY ANALYSIS FOR ALL SAMPLES
+# ============================================================
+
+def analyze_all_sample_quality():
+
+    samples = (
+        st.session_state.uploaded_samples
+    )
+
+    if not samples:
+
+        raise ValueError(
+            "No handwriting samples available."
+        )
+
+    quality_results = []
+
+    progress_bar = st.progress(
+        0
+    )
+
+    status_text = st.empty()
+
+    total_samples = len(
+        samples
+    )
+
+    for index, sample in enumerate(
+        samples
+    ):
+
+        status_text.write(
+            f"Analyzing quality for sample "
+            f"{index + 1} of "
+            f"{total_samples}: "
+            f"{sample.name}"
+        )
+
+        # Move the uploaded file pointer
+        # back to the beginning before reading.
+
+        try:
+            sample.seek(
+                0
+            )
+        except Exception:
+            pass
+
+        original_image = (
+            uploaded_file_to_numpy(
+                sample
+            )
+        )
+
+        try:
+            sample.seek(
+                0
+            )
+        except Exception:
+            pass
+
+        processing_results = (
+            process_handwriting_image(
+                sample
+            )
+        )
+
+        binary_image = (
+            processing_results.get(
+                "corrected_binary",
+                processing_results.get(
+                    "binary"
+                ),
+            )
+        )
+
+        quality_result = (
+            analyze_sample_quality(
+                original_image=
+                    original_image,
+
+                binary_image=
+                    binary_image,
+            )
+        )
+
+        quality_results.append(
+            quality_result
+        )
+
+        progress_bar.progress(
+            (index + 1)
+            / total_samples
+        )
+
+    status_text.success(
+        "Quality analysis completed successfully."
+    )
+
+    return quality_results
 
 
 # ============================================================
@@ -1944,6 +2109,578 @@ def show_analysis():
             }
             """
         )
+
+
+# ============================================================
+# PHASE 4D + PHASE 5
+# HANDWRITING INTELLIGENCE DASHBOARD
+# ============================================================
+
+    if (
+        st.session_state.style_model
+        is not None
+    ):
+
+        st.divider()
+
+        st.header(
+            "🧠 Handwriting Intelligence Dashboard"
+        )
+
+        st.write(
+            """
+            Combine Machine Learning similarity,
+            handwriting image quality, outlier detection
+            and sample selection to build the final
+            intelligent handwriting profile.
+            """
+        )
+
+        if st.button(
+            "🚀 Run Complete Profile Intelligence Analysis",
+            type="primary",
+            use_container_width=True,
+        ):
+
+            try:
+
+                with st.spinner(
+                    "Running complete handwriting intelligence analysis..."
+                ):
+
+                    style_model = (
+                        st.session_state.style_model
+                    )
+
+                    normalized_dataframe = (
+                        style_model[
+                            "normalized_dataframe"
+                        ]
+                    )
+
+                    normalized_features = (
+                        normalized_dataframe.to_numpy()
+                    )
+
+                    sample_names = (
+                        st.session_state.style_model_sample_names
+                    )
+
+                    overall_consistency = float(
+                        style_model[
+                            "overall_consistency"
+                        ]
+                    )
+
+                    # ====================================================
+                    # PHASE 4D
+                    # SIMILARITY + OUTLIER ANALYSIS
+                    # ====================================================
+
+                    similarity_analysis = (
+                        analyze_handwriting_similarity(
+                            normalized_features=
+                                normalized_features,
+
+                            sample_names=
+                                sample_names,
+
+                            overall_consistency=
+                                overall_consistency,
+                        )
+                    )
+
+                    st.session_state.similarity_analysis = (
+                        similarity_analysis
+                    )
+
+                    # ====================================================
+                    # PHASE 5A
+                    # QUALITY ANALYSIS
+                    # ====================================================
+
+                    quality_results = (
+                        analyze_all_sample_quality()
+                    )
+
+                    st.session_state.quality_results = (
+                        quality_results
+                    )
+
+                    # ====================================================
+                    # PHASE 5B
+                    # SAMPLE SELECTION
+                    # ====================================================
+
+                    selection_dataframe = (
+                        build_sample_selection_dataframe(
+                            sample_names=
+                                sample_names,
+
+                            quality_results=
+                                quality_results,
+
+                            average_similarity_dataframe=
+                                similarity_analysis[
+                                    "average_similarity"
+                                ],
+
+                            outlier_dataframe=
+                                similarity_analysis[
+                                    "outlier_dataframe"
+                                ],
+                        )
+                    )
+
+                    selection_summary = (
+                        get_sample_selection_summary(
+                            selection_dataframe
+                        )
+                    )
+
+                    st.session_state.sample_selection_dataframe = (
+                        selection_dataframe
+                    )
+
+                    st.session_state.selection_summary = (
+                        selection_summary
+                    )
+
+                    # ====================================================
+                    # PHASE 5C
+                    # FINAL PROFILE
+                    # ====================================================
+
+                    final_profile = (
+                        build_handwriting_profile(
+                            profile_name=
+                                st.session_state.profile_name,
+
+                            selection_dataframe=
+                                selection_dataframe,
+
+                            selection_summary=
+                                selection_summary,
+
+                            overall_consistency=
+                                overall_consistency,
+
+                            similarity_profile_confidence=
+                                similarity_analysis[
+                                    "profile_confidence"
+                                ],
+                        )
+                    )
+
+                    st.session_state.final_handwriting_profile = (
+                        final_profile
+                    )
+
+                st.success(
+                    "Complete handwriting intelligence profile built successfully!"
+                )
+
+            except Exception as error:
+
+                st.error(
+                    f"Profile intelligence analysis failed: {error}"
+                )
+
+        # ========================================================
+        # DISPLAY COMPLETE RESULTS
+        # ========================================================
+
+        if (
+            st.session_state.final_handwriting_profile
+            is not None
+            and st.session_state.similarity_analysis
+            is not None
+            and st.session_state.sample_selection_dataframe
+            is not None
+        ):
+
+            final_profile = (
+                st.session_state.final_handwriting_profile
+            )
+
+            similarity_analysis = (
+                st.session_state.similarity_analysis
+            )
+
+            selection_dataframe = (
+                st.session_state.sample_selection_dataframe
+            )
+
+            selection_summary = (
+                st.session_state.selection_summary
+            )
+
+            # ----------------------------------------------------
+            # FINAL PROFILE STATUS
+            # ----------------------------------------------------
+
+            st.divider()
+
+            st.subheader(
+                "🎯 Final Handwriting Profile"
+            )
+
+            profile_col1, profile_col2, profile_col3 = (
+                st.columns(3)
+            )
+
+            with profile_col1:
+
+                st.metric(
+                    "Profile Confidence",
+                    (
+                        f"{final_profile['final_profile_confidence']:.1f}%"
+                    ),
+                )
+
+            with profile_col2:
+
+                st.metric(
+                    "Accepted Samples",
+                    (
+                        final_profile[
+                            "accepted_samples"
+                        ]
+                    ),
+                )
+
+            with profile_col3:
+
+                st.metric(
+                    "Average Quality",
+                    (
+                        f"{final_profile['average_quality']:.1f}%"
+                    ),
+                )
+
+            readiness_status = (
+                f"{final_profile['status_emoji']} "
+                f"{final_profile['status']}"
+            )
+
+            if (
+                final_profile[
+                    "ready_for_generation"
+                ]
+            ):
+
+                st.success(
+                    readiness_status
+                )
+
+            else:
+
+                st.warning(
+                    readiness_status
+                )
+
+            st.info(
+                final_profile[
+                    "status_message"
+                ]
+            )
+
+            # ----------------------------------------------------
+            # PROFILE SUMMARY
+            # ----------------------------------------------------
+
+            st.subheader(
+                "📋 Profile Summary"
+            )
+
+            profile_summary_dataframe = (
+                create_profile_summary_dataframe(
+                    final_profile
+                )
+            )
+
+            st.dataframe(
+                profile_summary_dataframe,
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            # ----------------------------------------------------
+            # PHASE 4D SIMILARITY MATRIX
+            # ----------------------------------------------------
+
+            st.divider()
+
+            st.subheader(
+                "🧬 Sample-to-Sample Similarity"
+            )
+
+            similarity_matrix = (
+                similarity_analysis[
+                    "similarity_matrix"
+                ]
+            )
+
+            similarity_percentage_matrix = (
+                similarity_matrix
+                * 100
+            )
+
+            st.dataframe(
+                similarity_percentage_matrix.round(
+                    2
+                ),
+                use_container_width=True,
+            )
+
+            # ----------------------------------------------------
+            # AVERAGE SIMILARITY
+            # ----------------------------------------------------
+
+            st.subheader(
+                "📊 Average Similarity by Sample"
+            )
+
+            average_similarity_dataframe = (
+                similarity_analysis[
+                    "average_similarity"
+                ]
+            )
+
+            display_similarity_dataframe = (
+                average_similarity_dataframe[
+                    [
+                        "Sample",
+                        "Average Similarity (%)",
+                    ]
+                ].copy()
+            )
+
+            st.dataframe(
+                display_similarity_dataframe.round(
+                    2
+                ),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            # ----------------------------------------------------
+            # OUTLIER DETECTION
+            # ----------------------------------------------------
+
+            st.subheader(
+                "🚨 Outlier Detection"
+            )
+
+            outlier_dataframe = (
+                similarity_analysis[
+                    "outlier_dataframe"
+                ]
+            )
+
+            st.dataframe(
+                outlier_dataframe.round(
+                    4
+                ),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            outlier_summary = (
+                similarity_analysis[
+                    "outlier_summary"
+                ]
+            )
+
+            if (
+                outlier_summary[
+                    "outlier_count"
+                ]
+                > 0
+            ):
+
+                outlier_names = (
+                    ", ".join(
+                        outlier_summary[
+                            "outlier_samples"
+                        ]
+                    )
+                )
+
+                st.warning(
+                    f"Possible handwriting outliers detected: {outlier_names}"
+                )
+
+            else:
+
+                st.success(
+                    "No major handwriting outliers detected."
+                )
+
+            # ----------------------------------------------------
+            # QUALITY ANALYSIS
+            # ----------------------------------------------------
+
+            st.divider()
+
+            st.subheader(
+                "🖼️ Sample Quality Analysis"
+            )
+
+            quality_rows = []
+
+            for index, quality_result in enumerate(
+                st.session_state.quality_results
+            ):
+
+                sample_name = (
+                    st.session_state.style_model_sample_names[
+                        index
+                    ]
+                    if index
+                    < len(
+                        st.session_state.style_model_sample_names
+                    )
+                    else f"Sample {index + 1}"
+                )
+
+                quality_rows.append(
+                    {
+                        "Sample": sample_name,
+                        "Quality Score": (
+                            quality_result[
+                                "quality_score"
+                            ]
+                        ),
+                        "Quality": (
+                            quality_result[
+                                "quality_label"
+                            ]
+                        ),
+                        "Sharpness": (
+                            quality_result[
+                                "sharpness"
+                            ]
+                        ),
+                        "Brightness": (
+                            quality_result[
+                                "brightness"
+                            ]
+                        ),
+                        "Contrast": (
+                            quality_result[
+                                "contrast"
+                            ]
+                        ),
+                        "Handwriting Coverage": (
+                            quality_result[
+                                "handwriting_coverage"
+                            ]
+                            * 100
+                        ),
+                    }
+                )
+
+            if quality_rows:
+
+                import pandas as pd
+
+                quality_dataframe = (
+                    pd.DataFrame(
+                        quality_rows
+                    )
+                )
+
+                st.dataframe(
+                    quality_dataframe.round(
+                        2
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+            # ----------------------------------------------------
+            # SAMPLE ACCEPTANCE / REJECTION
+            # ----------------------------------------------------
+
+            st.divider()
+
+            st.subheader(
+                "✅ Intelligent Sample Selection"
+            )
+
+            st.dataframe(
+                selection_dataframe.round(
+                    3
+                ),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            selection_col1, selection_col2, selection_col3 = (
+                st.columns(3)
+            )
+
+            with selection_col1:
+
+                st.metric(
+                    "Total Samples",
+                    selection_summary[
+                        "total_samples"
+                    ],
+                )
+
+            with selection_col2:
+
+                st.metric(
+                    "Accepted",
+                    selection_summary[
+                        "accepted_samples"
+                    ],
+                )
+
+            with selection_col3:
+
+                st.metric(
+                    "Rejected",
+                    selection_summary[
+                        "rejected_samples"
+                    ],
+                )
+
+            # ----------------------------------------------------
+            # ACCEPTED / REJECTED SAMPLE LISTS
+            # ----------------------------------------------------
+
+            accepted_names = (
+                final_profile[
+                    "accepted_sample_names"
+                ]
+            )
+
+            rejected_names = (
+                final_profile[
+                    "rejected_sample_names"
+                ]
+            )
+
+            if accepted_names:
+
+                st.success(
+                    "Accepted Samples: "
+                    + ", ".join(
+                        accepted_names
+                    )
+                )
+
+            if rejected_names:
+
+                st.warning(
+                    "Rejected Samples: "
+                    + ", ".join(
+                        rejected_names
+                    )
+                )
 
 
 # ============================================================
