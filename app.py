@@ -50,6 +50,15 @@ from preprocessing.document_processing import (
     segment_words,
 )
 
+# ============================================================
+# PHASE 3
+# HANDWRITING FEATURE EXTRACTION
+# ============================================================
+
+from features.handwriting_features import (
+    extract_handwriting_features,
+)
+
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -1074,6 +1083,239 @@ def show_analysis():
     )
 
     # ========================================================
+    # PHASE 3
+    # HANDWRITING FEATURE EXTRACTION
+    # ========================================================
+
+    st.divider()
+
+    st.header(
+        "🧬 Handwriting DNA"
+    )
+
+    st.write(
+        """
+        These numerical characteristics describe the
+        visual properties of the handwriting sample.
+
+        They will later be used by the Machine Learning
+        and Deep Learning components of InkPROVISE.
+        """
+    )
+
+    # --------------------------------------------------------
+    # EXTRACT FEATURES
+    # --------------------------------------------------------
+
+    try:
+
+        handwriting_features = (
+            extract_handwriting_features(
+                results["handwriting_region"],
+                results["lines"],
+                results["words_by_line"],
+            )
+        )
+
+    except Exception as error:
+
+        st.error(
+            f"Feature extraction failed: {error}"
+        )
+
+        return
+
+    # ========================================================
+    # MAIN FEATURE METRICS
+    # ========================================================
+
+    feature_columns = st.columns(4)
+
+    with feature_columns[0]:
+
+        st.metric(
+            "Ink Density",
+            f"{handwriting_features['ink_density']:.4f}",
+        )
+
+    with feature_columns[1]:
+
+        st.metric(
+            "Lines",
+            handwriting_features[
+                "number_of_lines"
+            ],
+        )
+
+    with feature_columns[2]:
+
+        st.metric(
+            "Words",
+            handwriting_features[
+                "number_of_words"
+            ],
+        )
+
+    with feature_columns[3]:
+
+        st.metric(
+            "Stroke Thickness",
+            f"{handwriting_features['estimated_stroke_thickness']:.2f}",
+        )
+
+    # ========================================================
+    # GEOMETRY
+    # ========================================================
+
+    st.subheader(
+        "📐 Geometry"
+    )
+
+    geometry_data = {
+        "Feature": [
+            "Handwriting Width",
+            "Handwriting Height",
+            "Handwriting Area",
+            "Page Utilization",
+        ],
+        "Value": [
+            handwriting_features[
+                "handwriting_width"
+            ],
+            handwriting_features[
+                "handwriting_height"
+            ],
+            handwriting_features[
+                "handwriting_area"
+            ],
+            handwriting_features[
+                "page_utilization"
+            ],
+        ],
+    }
+
+    st.table(
+        geometry_data
+    )
+
+    # ========================================================
+    # MARGINS
+    # ========================================================
+
+    st.subheader(
+        "📏 Margins"
+    )
+
+    margin_data = {
+        "Feature": [
+            "Left Margin",
+            "Right Margin",
+            "Top Margin",
+            "Bottom Margin",
+        ],
+        "Value": [
+            handwriting_features[
+                "left_margin"
+            ],
+            handwriting_features[
+                "right_margin"
+            ],
+            handwriting_features[
+                "top_margin"
+            ],
+            handwriting_features[
+                "bottom_margin"
+            ],
+        ],
+    }
+
+    st.table(
+        margin_data
+    )
+
+    # ========================================================
+    # WRITING STRUCTURE
+    # ========================================================
+
+    st.subheader(
+        "📝 Writing Structure"
+    )
+
+    structure_data = {
+        "Feature": [
+            "Number of Lines",
+            "Mean Line Height",
+            "Line Height Variation",
+            "Mean Line Spacing",
+            "Number of Words",
+            "Mean Word Width",
+            "Mean Word Height",
+        ],
+        "Value": [
+            handwriting_features[
+                "number_of_lines"
+            ],
+            handwriting_features[
+                "mean_line_height"
+            ],
+            handwriting_features[
+                "std_line_height"
+            ],
+            handwriting_features[
+                "mean_line_spacing"
+            ],
+            handwriting_features[
+                "number_of_words"
+            ],
+            handwriting_features[
+                "mean_word_width"
+            ],
+            handwriting_features[
+                "mean_word_height"
+            ],
+        ],
+    }
+
+    st.table(
+        structure_data
+    )
+
+    # ========================================================
+    # WRITING STYLE
+    # ========================================================
+
+    st.subheader(
+        "✍️ Writing Style"
+    )
+
+    style_data = {
+        "Feature": [
+            "Estimated Slant",
+            "Stroke Thickness",
+            "Ink Density",
+            "Connected Components",
+        ],
+        "Value": [
+            handwriting_features[
+                "estimated_slant"
+            ],
+            handwriting_features[
+                "estimated_stroke_thickness"
+            ],
+            handwriting_features[
+                "ink_density"
+            ],
+            handwriting_features[
+                "number_of_components"
+            ],
+        ],
+    }
+
+    st.table(
+        style_data
+    )
+
+    # ========================================================
     # PHASE 2 STATUS
     # ========================================================
 
@@ -1103,6 +1345,38 @@ def show_analysis():
 
         st.success(
             "Word segmentation completed"
+        )
+
+    # ========================================================
+    # PHASE 3 STATUS
+    # ========================================================
+
+    st.divider()
+
+    st.subheader(
+        "🧬 Phase 3 Status"
+    )
+
+    phase3_col1, phase3_col2 = st.columns(2)
+
+    with phase3_col1:
+
+        st.success(
+            "Geometry features extracted"
+        )
+
+        st.success(
+            "Margin features extracted"
+        )
+
+    with phase3_col2:
+
+        st.success(
+            "Writing structure analyzed"
+        )
+
+        st.success(
+            "Writing style features extracted"
         )
 
 
