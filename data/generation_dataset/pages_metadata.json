@@ -1,0 +1,338 @@
+[
+    {
+        "sample_name": "1.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\1.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "1.jpeg",
+                "line_index": 1,
+                "filename": "1_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\1_line_001.png",
+                "start_row": 36,
+                "end_row": 1599,
+                "width": 1200,
+                "height": 1564
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "1",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "1_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1564
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "1.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "1_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+                "normalized_filename": "1_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\1_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1564,
+                "normalized_width": 105,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1196,
+                    1550
+                ],
+                "estimated_baseline": 1514,
+                "vertical_shift": -344,
+                "status": "success"
+            }
+        ]
+    },
+    {
+        "sample_name": "1.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\1.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "1.jpeg",
+                "line_index": 1,
+                "filename": "1_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\1_line_001.png",
+                "start_row": 36,
+                "end_row": 1599,
+                "width": 1200,
+                "height": 1564
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "1",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "1_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1564
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "1.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "1_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+                "normalized_filename": "1_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\1_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1564,
+                "normalized_width": 105,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1196,
+                    1550
+                ],
+                "estimated_baseline": 1514,
+                "vertical_shift": -344,
+                "status": "success"
+            }
+        ]
+    },
+    {
+        "sample_name": "2.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\2.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "2.jpeg",
+                "line_index": 1,
+                "filename": "2_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\2_line_001.png",
+                "start_row": 222,
+                "end_row": 1489,
+                "width": 1200,
+                "height": 1268
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "2",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "2_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1268
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "2.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "2_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+                "normalized_filename": "2_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\2_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1268,
+                "normalized_width": 122,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1200,
+                    1261
+                ],
+                "estimated_baseline": 1200,
+                "vertical_shift": -251,
+                "status": "success"
+            }
+        ]
+    },
+    {
+        "sample_name": "2.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\2.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "2.jpeg",
+                "line_index": 1,
+                "filename": "2_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\2_line_001.png",
+                "start_row": 222,
+                "end_row": 1489,
+                "width": 1200,
+                "height": 1268
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "2",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "2_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1268
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "2.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "2_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+                "normalized_filename": "2_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\2_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1268,
+                "normalized_width": 122,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1200,
+                    1261
+                ],
+                "estimated_baseline": 1200,
+                "vertical_shift": -251,
+                "status": "success"
+            }
+        ]
+    },
+    {
+        "sample_name": "3.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\3.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "3.jpeg",
+                "line_index": 1,
+                "filename": "3_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\3_line_001.png",
+                "start_row": 221,
+                "end_row": 1515,
+                "width": 1200,
+                "height": 1295
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "3",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "3_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1295
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "3.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "3_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+                "normalized_filename": "3_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\3_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1295,
+                "normalized_width": 121,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1200,
+                    1288
+                ],
+                "estimated_baseline": 1169,
+                "vertical_shift": -200,
+                "status": "success"
+            }
+        ]
+    },
+    {
+        "sample_name": "3.jpeg",
+        "sample_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\samples\\3.jpeg",
+        "line_count": 1,
+        "word_count": 1,
+        "normalized_word_count": 1,
+        "line_metadata": [
+            {
+                "sample_name": "3.jpeg",
+                "line_index": 1,
+                "filename": "3_line_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\lines\\3_line_001.png",
+                "start_row": 221,
+                "end_row": 1515,
+                "width": 1200,
+                "height": 1295
+            }
+        ],
+        "word_metadata": [
+            {
+                "sample_name": "3",
+                "line_index": 1,
+                "word_index": 1,
+                "filename": "3_line_001_word_001.png",
+                "path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+                "start_column": 0,
+                "end_column": 1199,
+                "width": 1200,
+                "height": 1295
+            }
+        ],
+        "normalized_word_metadata": [
+            {
+                "sample_name": "3.jpeg",
+                "line_index": 1,
+                "word_index": 1,
+                "original_word_filename": "3_line_001_word_001.png",
+                "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+                "normalized_filename": "3_line_001_word_001_normalized.png",
+                "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\3_line_001_word_001_normalized.png",
+                "original_width": 1200,
+                "original_height": 1295,
+                "normalized_width": 121,
+                "normalized_height": 120,
+                "bounding_box": [
+                    0,
+                    7,
+                    1200,
+                    1288
+                ],
+                "estimated_baseline": 1169,
+                "vertical_shift": -200,
+                "status": "success"
+            }
+        ]
+    }
+]

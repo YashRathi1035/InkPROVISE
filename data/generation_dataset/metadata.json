@@ -1,0 +1,134 @@
+[
+    {
+        "sample_name": "1.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "1_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+        "normalized_filename": "1_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\1_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1564,
+        "normalized_width": 105,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1196,
+            1550
+        ],
+        "estimated_baseline": 1514,
+        "vertical_shift": -344,
+        "status": "success"
+    },
+    {
+        "sample_name": "1.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "1_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\1_line_001_word_001.png",
+        "normalized_filename": "1_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\1_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1564,
+        "normalized_width": 105,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1196,
+            1550
+        ],
+        "estimated_baseline": 1514,
+        "vertical_shift": -344,
+        "status": "success"
+    },
+    {
+        "sample_name": "2.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "2_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+        "normalized_filename": "2_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\2_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1268,
+        "normalized_width": 122,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1200,
+            1261
+        ],
+        "estimated_baseline": 1200,
+        "vertical_shift": -251,
+        "status": "success"
+    },
+    {
+        "sample_name": "2.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "2_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\2_line_001_word_001.png",
+        "normalized_filename": "2_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\2_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1268,
+        "normalized_width": 122,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1200,
+            1261
+        ],
+        "estimated_baseline": 1200,
+        "vertical_shift": -251,
+        "status": "success"
+    },
+    {
+        "sample_name": "3.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "3_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+        "normalized_filename": "3_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\3_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1295,
+        "normalized_width": 121,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1200,
+            1288
+        ],
+        "estimated_baseline": 1169,
+        "vertical_shift": -200,
+        "status": "success"
+    },
+    {
+        "sample_name": "3.jpeg",
+        "line_index": 1,
+        "word_index": 1,
+        "original_word_filename": "3_line_001_word_001.png",
+        "original_word_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\words\\3_line_001_word_001.png",
+        "normalized_filename": "3_line_001_word_001_normalized.png",
+        "normalized_path": "C:\\Users\\yashr\\OneDrive\\Attachments\\Desktop\\Projects\\InkPROVISE\\data\\generation_dataset\\normalized_words\\3_line_001_word_001_normalized.png",
+        "original_width": 1200,
+        "original_height": 1295,
+        "normalized_width": 121,
+        "normalized_height": 120,
+        "bounding_box": [
+            0,
+            7,
+            1200,
+            1288
+        ],
+        "estimated_baseline": 1169,
+        "vertical_shift": -200,
+        "status": "success"
+    }
+]
